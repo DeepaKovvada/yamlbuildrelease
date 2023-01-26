@@ -9,22 +9,24 @@ trigger:
 pool:
   name: Default
 steps:
+- task: CopyFiles@2
+  displayName: copy files
+  inputs:
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - task: PublishBuildArtifacts@1
   displayName: publish build
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(Build.ArtifactStagingDirectory)'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - task: DownloadBuildArtifacts@1
   displayName: Add artifact
   inputs:
     buildType: 'current'
     downloadType: 'single'
+    ArtifactName: 'drop'
     downloadPath: '$(System.ArtifactsDirectory)'
 - task: TerraformInstaller@0
   displayName: terraform installer
