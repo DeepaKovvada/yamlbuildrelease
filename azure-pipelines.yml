@@ -20,6 +20,12 @@ steps:
     SourceFolder: '$(Build.ArtifactStagingDirectory)'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+- task: DownloadBuildArtifacts@1
+  displayName: Add artifact
+  inputs:
+    buildType: 'current'
+    downloadType: 'single'
+    downloadPath: '$(System.ArtifactsDirectory)'
 - task: TerraformInstaller@0
   displayName: terraform installer
   inputs:
